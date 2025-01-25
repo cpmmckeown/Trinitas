@@ -1167,46 +1167,6 @@ Enjoy...
 &lt;autoplay&gt;
 &lt;/video&gt;
 &lt;/tw-passage&gt;
-(live:1)[
-&lt;script&gt;
-      var video = document.querySelector(&#39;video&#39;);
-      var assetURL = &#39;https://github.com/cpmmckeown/Trinitas/raw/refs/heads/main/AV0.mp4&#39;;
-      // Need to be specific for Blink regarding codecs
-      // ./mp4info frag_bunny.mp4 | grep Codec
-      var mimeCodec = &#39;video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;&#39;;
-      if (&#39;MediaSource&#39; in window &amp;&amp; MediaSource.isTypeSupported(mimeCodec)) {
-        var mediaSource = new MediaSource;
-        //console.log(mediaSource.readyState); // closed
-        video.src = URL.createObjectURL(mediaSource);
-        mediaSource.addEventListener(&#39;sourceopen&#39;, sourceOpen);
-      } else {
-        console.error(&#39;Unsupported MIME type or codec: &#39;, mimeCodec);
-      }
-      function sourceOpen (_) {
-        //console.log(this.readyState); // open
-        var mediaSource = this;
-        var sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
-        fetchAB(assetURL, function (buf) {
-          sourceBuffer.addEventListener(&#39;updateend&#39;, function (_) {
-            mediaSource.endOfStream();
-            video.play();
-            //console.log(mediaSource.readyState); // ended
-          });
-          sourceBuffer.appendBuffer(buf);
-        });
-      };
-      function fetchAB (url, cb) {
-        console.log(url);
-        var xhr = new XMLHttpRequest;
-        xhr.open(&#39;get&#39;, url);
-        xhr.responseType = &#39;arraybuffer&#39;;
-        xhr.onload = function () {
-          cb(xhr.response);
-        };
-        xhr.send();
-      };
-    &lt;/script&gt;
-(stop:)]
 
 (align:&quot;=&gt;&lt;=&quot;)[[[Awaken|AV1-2]]]
 
